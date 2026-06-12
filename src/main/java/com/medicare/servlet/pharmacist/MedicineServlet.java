@@ -18,3 +18,28 @@ import java.util.UUID;
 
 @WebServlet("/pharmacist/medicines")
 @MultipartConfig(
+        fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 5 * 1024 * 1024,
+        maxRequestSize = 8 * 1024 * 1024
+)
+public class MedicineServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User pharmacist = AuthUtil.requireRole(req, resp, "pharmacist");
+        if (pharmacist == null) return;
+
+        MedicineDAO dao = new MedicineDAO();
+        String action = req.getParameter("action");
+        int id = parseInt(req.getParameter("id"), -1);
+
+        if ("delete".equals(action)) {
+            boolean ok = id > 0 && dao.delete(id, pharmacist.getUserId());
+            resp.sendRedirect("manage-medicines.jsp?" + (ok ? "success=" + encode("Medicine deleted successfully.") : "error=" + encode("Medicine delete failed.")));
+            return;
+        }
+
+        if ("edit".equals(action)) {
+            Medicine medicine = id > 0 ? dao.getByIdForOwner(id, pharmacist.getUserId()) : null;
+            if (medicine == null) {
+                resp.sendRedirect("manage-medicines.jsp?error=" + encode("Medicine not found."));
+                return;
+            }
