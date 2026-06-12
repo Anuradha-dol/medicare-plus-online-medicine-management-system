@@ -34,3 +34,27 @@ String selectedDeliveryMethods = editMedicine != null && editMedicine.getDeliver
             <div class="image-preview-row">
                 <img src="../assets/images/<%=editMedicine.getImage()%>" alt="<%=editMedicine.getName()%>">
                 <span>Current image. Upload a new file only if you want to replace it.</span>
+            </div>
+        <% } %>
+        <input type="file" name="image" accept="image/*">
+        <div class="delivery-config">
+            <label>Available Medicine Transport Methods</label>
+            <p class="muted">Select the delivery services this medicine can use. Customers can only choose methods enabled here.</p>
+            <div class="delivery-check-grid">
+                <label>
+                    <input type="checkbox" name="deliveryMethods" value="<%=MedicineDAO.STANDARD_MEDICAL_COURIER%>" <%= selectedDeliveryMethods.contains(MedicineDAO.STANDARD_MEDICAL_COURIER) ? "checked" : "" %>>
+                    <span><%=MedicineDAO.STANDARD_MEDICAL_COURIER%></span>
+                </label>
+                <label>
+                    <input type="checkbox" name="deliveryMethods" value="<%=MedicineDAO.EXPRESS_MEDICAL_COURIER%>" <%= selectedDeliveryMethods.contains(MedicineDAO.EXPRESS_MEDICAL_COURIER) ? "checked" : "" %>>
+                    <span><%=MedicineDAO.EXPRESS_MEDICAL_COURIER%></span>
+                </label>
+                <label>
+                    <input type="checkbox" name="deliveryMethods" value="<%=MedicineDAO.MEDICARE_DELIVERY_SERVICE%>" <%= selectedDeliveryMethods.contains(MedicineDAO.MEDICARE_DELIVERY_SERVICE) ? "checked" : "" %>>
+                    <span><%=MedicineDAO.MEDICARE_DELIVERY_SERVICE%></span>
+                </label>
+            </div>
+        </div>
+        <button type="submit"><%= editMedicine == null ? "Add Medicine" : "Update Medicine" %></button>
+        <% if(editMedicine != null) { %>
+            <a class="btn" href="manage-medicines.jsp">Cancel Edit</a>
