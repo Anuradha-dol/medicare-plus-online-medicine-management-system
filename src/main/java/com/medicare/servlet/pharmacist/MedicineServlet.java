@@ -118,3 +118,28 @@ public class MedicineServlet extends HttpServlet {
         }
     }
 
+    private String saveImage(HttpServletRequest req) throws IOException {
+        try {
+            Part imagePart = req.getPart("image");
+            if (imagePart == null || imagePart.getSize() == 0) return "";
+
+            String contentType = imagePart.getContentType();
+            if (contentType == null || !contentType.toLowerCase(Locale.ROOT).startsWith("image/")) {
+                return "";
+            }
+
+            String submittedName = Paths.get(imagePart.getSubmittedFileName()).getFileName().toString();
+            String extension = extension(submittedName);
+            if (!isAllowedExtension(extension)) return "";
+
+            String fileName = "medicine-" + System.currentTimeMillis() + "-" + UUID.randomUUID().toString().substring(0, 8) + extension;
+            String relativeDir = "assets/images/medicines";
+            String uploadDir = req.getServletContext().getRealPath("/" + relativeDir);
+            if (uploadDir == null) return "";
+
+            File directory = new File(uploadDir);
+            if (!directory.exists() && !directory.mkdirs()) return "";
+
+            imagePart.write(new File(directory, fileName).getAbsolutePath());
+            return "medicines/" + fileName;
+        } catch (ServletException e) {
