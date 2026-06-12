@@ -216,6 +216,79 @@ For IntelliJ IDEA:
 http://localhost:8080/online_medicine_system/
 ```
 
+## Eclipse Setup to Run the Website
+
+Use Eclipse IDE for Enterprise Java and Web Developers because this project is a Maven WAR web application.
+
+1. Create a new Eclipse workspace.
+
+From the Eclipse top menu, go to:
+
+```text
+File > Switch Workspace > Other...
+```
+
+Enter this workspace path:
+
+```text
+C:\Users\MSI\eclipse-workspace-medicare
+```
+
+Click `Launch` or `OK`. Eclipse will restart with the new workspace.
+
+2. Import the project.
+
+After Eclipse restarts, go to:
+
+```text
+File > Import...
+```
+
+Select:
+
+```text
+Maven > Existing Maven Projects
+```
+
+Click `Next`.
+
+3. Select the project folder.
+
+Click `Browse` and select this folder:
+
+```text
+C:\Users\MSI\Documents\MY All completed coding projects\medicare-plus-online-medicine-management-system-main
+```
+
+Make sure the selected folder contains `pom.xml`. When the project appears in the list, tick the project checkbox and click `Finish`.
+
+4. Confirm the import.
+
+After import, the left side Project Explorer should show:
+
+```text
+medicare-plus-online-medicine-management-system-main
+Servers
+```
+
+If only `Servers` appears, the project was not imported correctly. Repeat the import and make sure the folder with `pom.xml` is selected.
+
+5. Run the website.
+
+Right-click the project and select:
+
+```text
+Run As > Run on Server
+```
+
+Select Apache Tomcat 10.x and click `Finish`.
+
+Open the website at:
+
+```text
+http://localhost:8080/online_medicine_system/
+```
+
 ## Important Project Files
 
 These files are important and should not be removed during cleanup:
