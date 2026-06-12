@@ -143,3 +143,23 @@ public class MedicineServlet extends HttpServlet {
             imagePart.write(new File(directory, fileName).getAbsolutePath());
             return "medicines/" + fileName;
         } catch (ServletException e) {
+            throw new IOException("Medicine image upload failed", e);
+        }
+    }
+
+    private String extension(String fileName) {
+        int dot = fileName == null ? -1 : fileName.lastIndexOf('.');
+        return dot >= 0 ? fileName.substring(dot).toLowerCase(Locale.ROOT) : ".jpg";
+    }
+
+    private boolean isAllowedExtension(String extension) {
+        return ".jpg".equals(extension) || ".jpeg".equals(extension)
+                || ".png".equals(extension) || ".gif".equals(extension)
+                || ".webp".equals(extension);
+    }
+
+    private String joinDeliveryMethods(String[] selected) {
+        if (selected == null || selected.length == 0) return "";
+
+        StringBuilder methods = new StringBuilder();
+        appendSelected(methods, selected, MedicineDAO.STANDARD_MEDICAL_COURIER);
