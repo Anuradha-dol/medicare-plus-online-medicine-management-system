@@ -68,3 +68,28 @@ public class MedicineServlet extends HttpServlet {
             m.setImage(imagePath);
         }
         m.setDeliveryMethods(joinDeliveryMethods(req.getParameterValues("deliveryMethods")));
+
+        if (isBlank(m.getName()) || isBlank(m.getCategory()) || m.getPrice() < 0 || m.getQuantity() < 0) {
+            resp.sendRedirect("manage-medicines.jsp?error=" + encode("Medicine name, category, price, and quantity are required."));
+            return;
+        }
+        if (isBlank(m.getDeliveryMethods())) {
+            resp.sendRedirect("manage-medicines.jsp?error=" + encode("Select at least one medicine delivery method."));
+            return;
+        }
+
+        MedicineDAO dao = new MedicineDAO();
+        boolean ok;
+        if ("update".equals(action)) {
+            m.setMedicineId(parseInt(req.getParameter("medicineId"), -1));
+            ok = m.getMedicineId() > 0 && dao.update(m, pharmacist.getUserId());
+        } else {
+            ok = dao.add(m, pharmacist.getUserId());
+        }
+
+        if (ok) {
+            resp.sendRedirect("manage-medicines.jsp?success=" + encode("Medicine saved successfully."));
+        } else {
+            resp.sendRedirect("manage-medicines.jsp?error=" + encode("Medicine save failed."));
+        }
+    }
