@@ -28,3 +28,18 @@ public class OrderStatusServlet extends HttpServlet {
         );
         resp.sendRedirect("orders.jsp?" + (ok ? "success=" + encode("Order status updated.") : "error=" + encode(errorMessage(status))));
     }
+
+    private int parseInt(String value, int fallback) {
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            return fallback;
+        }
+    }
+
+    private Timestamp parseDateTime(String value) {
+        if (value == null || value.trim().isEmpty()) return null;
+
+        try {
+            return Timestamp.valueOf(LocalDateTime.parse(value.trim()));
+        } catch (DateTimeParseException e) {
