@@ -62,3 +62,23 @@ int stockHealth = medicines.isEmpty() ? 0 : Math.max(0, 100 - (lowStock.size() *
         <table class="compact-table">
             <tr><th>Order</th><th>Customer</th><th>Your Total</th><th>Status</th></tr>
             <% int shown = 0; for(Map<String,Object> order: orders) { if(shown++ >= 5) break; %>
+            <tr>
+                <td>#<%=order.get("orderId")%></td>
+                <td><%=order.get("customerName")%></td>
+                <td>Rs. <%=order.get("totalAmount")%></td>
+                <td><span class="badge"><%=order.get("orderStatus")%></span></td>
+            </tr>
+            <% } %>
+            <% if(orders.isEmpty()) { %><tr><td colspan="4">No orders for your medicines yet.</td></tr><% } %>
+        </table>
+    </div>
+</section>
+
+<section class="quick-actions">
+    <a class="action-tile green-card" href="manage-medicines.jsp"><strong>Manage Medicines</strong><span>Add, edit, and remove your stock</span></a>
+    <a class="action-tile blue-card" href="orders.jsp"><strong>Manage Orders</strong><span>Update customer order status</span></a>
+    <a class="action-tile violet-card" href="analytics.jsp"><strong>Analytics</strong><span>Review stock and sales performance</span></a>
+    <a class="action-tile orange-card" href="manage-medicines.jsp"><strong>Low Stock</strong><span><%=lowStock.size()%> items need attention</span></a>
+</section>
+
+<%@ include file="../WEB-INF/footer.jsp" %>
