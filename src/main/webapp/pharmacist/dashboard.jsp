@@ -18,3 +18,25 @@ for(Map<String,Object> order: orders) {
     String status = String.valueOf(order.get("orderStatus"));
     if("Pending".equals(status) || "Mixed".equals(status)) pendingOrders++;
     if("Completed".equals(status)) completedOrders++;
+}
+
+double sales = analytics.get("totalSales") == null ? 0 : ((Number)analytics.get("totalSales")).doubleValue();
+int stockHealth = medicines.isEmpty() ? 0 : Math.max(0, 100 - (lowStock.size() * 100 / medicines.size()));
+%>
+<%@ include file="../WEB-INF/header.jsp" %>
+
+<section class="dashboard-hero pharmacist-hero">
+    <div>
+        <span class="eyebrow">Pharmacist Workspace</span>
+        <h1>Manage stock, sales, and customer orders</h1>
+        <p>Your approved pharmacy dashboard for medicine inventory, low-stock control, and order fulfilment.</p>
+    </div>
+    <div class="hero-metric">
+        <small>My Sales</small>
+        <strong>Rs. <%=String.format("%.2f", sales)%></strong>
+        <span><%=orders.size()%> received orders</span>
+    </div>
+</section>
+
+<section class="metric-grid">
+    <div class="metric-card green-card"><span>My Medicines</span><strong><%=medicines.size()%></strong><small>Active inventory items</small></div>
