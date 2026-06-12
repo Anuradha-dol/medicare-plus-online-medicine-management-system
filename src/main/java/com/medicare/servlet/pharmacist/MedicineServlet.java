@@ -93,3 +93,28 @@ public class MedicineServlet extends HttpServlet {
             resp.sendRedirect("manage-medicines.jsp?error=" + encode("Medicine save failed."));
         }
     }
+
+    private String trim(String value) {
+        return value == null ? "" : value.trim();
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
+    private int parseInt(String value, int fallback) {
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            return fallback;
+        }
+    }
+
+    private double parseDouble(String value, double fallback) {
+        try {
+            return Double.parseDouble(value);
+        } catch (Exception e) {
+            return fallback;
+        }
+    }
+
