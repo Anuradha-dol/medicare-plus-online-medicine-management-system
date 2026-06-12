@@ -58,3 +58,21 @@ String selectedDeliveryMethods = editMedicine != null && editMedicine.getDeliver
         <button type="submit"><%= editMedicine == null ? "Add Medicine" : "Update Medicine" %></button>
         <% if(editMedicine != null) { %>
             <a class="btn" href="manage-medicines.jsp">Cancel Edit</a>
+        <% } %>
+        <a class="btn" href="dashboard.jsp">Back</a>
+    </form>
+
+    <table>
+        <tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Expiry</th><th>Transport</th><th>Action</th></tr>
+        <% for(Medicine m: medicines) { %>
+        <tr>
+            <td><img class="table-image" src="../assets/images/<%=m.getImage()%>" alt="<%=m.getName()%>"></td>
+            <td><%=m.getName()%></td>
+            <td><%=m.getCategory()%></td>
+            <td>Rs. <%=m.getPrice()%></td>
+            <td><span class="badge <%=m.getQuantity()<=15?"low":""%>"><%=m.getQuantity()%></span></td>
+            <td><%=m.getExpiryDate()%></td>
+            <td><span class="delivery-tags"><%=m.getDeliveryMethods()%></span></td>
+            <td>
+                <a class="btn" href="medicines?action=edit&id=<%=m.getMedicineId()%>">Edit</a>
+                <a class="btn danger" onclick="return confirmDelete()" href="medicines?action=delete&id=<%=m.getMedicineId()%>">Delete</a>
