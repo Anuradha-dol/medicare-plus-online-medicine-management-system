@@ -76,3 +76,12 @@ String selectedDeliveryMethods = editMedicine != null && editMedicine.getDeliver
             <td>
                 <a class="btn" href="medicines?action=edit&id=<%=m.getMedicineId()%>">Edit</a>
                 <a class="btn danger" onclick="return confirmDelete()" href="medicines?action=delete&id=<%=m.getMedicineId()%>">Delete</a>
+            </td>
+        </tr>
+        <% } %>
+        <% if(medicines.isEmpty()) { %>
+        <tr><td colspan="8">No medicines added yet.</td></tr>
+        <% } %>
+    </table>
+</div>
+<%@ include file="../WEB-INF/footer.jsp" %>
