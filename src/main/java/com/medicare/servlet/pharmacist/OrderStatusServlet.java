@@ -43,3 +43,18 @@ public class OrderStatusServlet extends HttpServlet {
         try {
             return Timestamp.valueOf(LocalDateTime.parse(value.trim()));
         } catch (DateTimeParseException e) {
+            return null;
+        }
+    }
+
+    private String errorMessage(String status) {
+        if ("Approved".equals(status)) {
+            return "Order approval failed. Set the expected delivery date and time.";
+        }
+        return "Order status update failed.";
+    }
+
+    private String encode(String value) throws IOException {
+        return URLEncoder.encode(value, "UTF-8");
+    }
+}
