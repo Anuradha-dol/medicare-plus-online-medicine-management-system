@@ -43,3 +43,28 @@ public class MedicineServlet extends HttpServlet {
                 resp.sendRedirect("manage-medicines.jsp?error=" + encode("Medicine not found."));
                 return;
             }
+            req.setAttribute("editMedicine", medicine);
+            req.getRequestDispatcher("manage-medicines.jsp").forward(req, resp);
+            return;
+        }
+
+        resp.sendRedirect("manage-medicines.jsp");
+    }
+
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        User pharmacist = AuthUtil.requireRole(req, resp, "pharmacist");
+        if (pharmacist == null) return;
+
+        String action = req.getParameter("action");
+        Medicine m = new Medicine();
+        m.setName(trim(req.getParameter("name")));
+        m.setCategory(trim(req.getParameter("category")));
+        m.setDescription(trim(req.getParameter("description")));
+        m.setPrice(parseDouble(req.getParameter("price"), -1));
+        m.setQuantity(parseInt(req.getParameter("quantity"), -1));
+        m.setExpiryDate(trim(req.getParameter("expiryDate")));
+        String imagePath = saveImage(req);
+        if (!isBlank(imagePath)) {
+            m.setImage(imagePath);
+        }
+        m.setDeliveryMethods(joinDeliveryMethods(req.getParameterValues("deliveryMethods")));
