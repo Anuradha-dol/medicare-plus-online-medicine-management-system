@@ -40,3 +40,25 @@ int stockHealth = medicines.isEmpty() ? 0 : Math.max(0, 100 - (lowStock.size() *
 
 <section class="metric-grid">
     <div class="metric-card green-card"><span>My Medicines</span><strong><%=medicines.size()%></strong><small>Active inventory items</small></div>
+    <div class="metric-card blue-card"><span>Total Stock</span><strong><%=totalStock%></strong><small>Units available</small></div>
+    <div class="metric-card orange-card"><span>Pending Orders</span><strong><%=pendingOrders%></strong><small>Need pharmacist action</small></div>
+    <div class="metric-card violet-card"><span>Low Stock</span><strong><%=lowStock.size()%></strong><small>Restock recommended</small></div>
+</section>
+
+<section class="dashboard-grid">
+    <div class="analytics-panel">
+        <div class="panel-title"><h2>Stock Health</h2></div>
+        <div class="donut-card" style="--value:<%=stockHealth%>%">
+            <span><%=stockHealth%>%</span>
+        </div>
+        <p class="center-copy">Higher score means fewer low-stock medicines.</p>
+    </div>
+
+    <div class="analytics-panel wide">
+        <div class="panel-title">
+            <h2>Latest Orders</h2>
+            <a class="btn ghost" href="orders.jsp">Manage Orders</a>
+        </div>
+        <table class="compact-table">
+            <tr><th>Order</th><th>Customer</th><th>Your Total</th><th>Status</th></tr>
+            <% int shown = 0; for(Map<String,Object> order: orders) { if(shown++ >= 5) break; %>
