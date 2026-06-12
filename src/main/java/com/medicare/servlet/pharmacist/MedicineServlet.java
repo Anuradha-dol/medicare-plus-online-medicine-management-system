@@ -163,3 +163,22 @@ public class MedicineServlet extends HttpServlet {
 
         StringBuilder methods = new StringBuilder();
         appendSelected(methods, selected, MedicineDAO.STANDARD_MEDICAL_COURIER);
+        appendSelected(methods, selected, MedicineDAO.EXPRESS_MEDICAL_COURIER);
+        appendSelected(methods, selected, MedicineDAO.MEDICARE_DELIVERY_SERVICE);
+        return methods.toString();
+    }
+
+    private void appendSelected(StringBuilder methods, String[] selected, String allowedMethod) {
+        for (String value : selected) {
+            if (allowedMethod.equals(value)) {
+                if (methods.length() > 0) methods.append(',');
+                methods.append(allowedMethod);
+                return;
+            }
+        }
+    }
+
+    private String encode(String value) throws IOException {
+        return URLEncoder.encode(value, "UTF-8");
+    }
+}
