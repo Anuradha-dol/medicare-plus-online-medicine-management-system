@@ -64,3 +64,31 @@ List<Map<String,Object>> orders = new CartOrderDAO().getOrdersForPharmacist(auth
                         <strong><%=name%></strong>
                         <small>Qty: <%=qty%> | Status: <%=itemStatus%></small>
                         <% if(expectedAt != null && !expectedAt.trim().isEmpty()) { %>
+                            <small>Expected delivery: <%=expectedAt%></small>
+                        <% } %>
+                    </div>
+                </div>
+                <% } } else { %>
+                    <p class="muted"><%=o.get("items")%></p>
+                <% } %>
+            </div>
+
+            <form action="update-order" method="post" class="status-form">
+                <input type="hidden" name="orderId" value="<%=o.get("orderId")%>">
+                <label>Update Fulfillment Status</label>
+                <select name="status">
+                    <option value="Pending" <%= "Pending".equals(currentStatus) ? "selected" : "" %>>Pending</option>
+                    <option value="Approved" <%= "Approved".equals(currentStatus) ? "selected" : "" %>>Approved</option>
+                    <option value="Completed" <%= "Completed".equals(currentStatus) ? "selected" : "" %>>Completed</option>
+                    <option value="Cancelled" <%= "Cancelled".equals(currentStatus) ? "selected" : "" %>>Cancelled</option>
+                </select>
+                <label>Expected Delivery Date & Time</label>
+                <input type="datetime-local" name="expectedDeliveryAt" value="<%=expectedInput%>">
+                <small class="field-note">Required when status is Approved. This becomes the user's on-the-way delivery ETA.</small>
+                <button type="submit">Save Status</button>
+            </form>
+        </article>
+        <% } %>
+    </div>
+<% } %>
+<%@ include file="../WEB-INF/footer.jsp" %>
