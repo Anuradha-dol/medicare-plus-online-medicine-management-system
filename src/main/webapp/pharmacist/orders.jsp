@@ -40,3 +40,27 @@ List<Map<String,Object>> orders = new CartOrderDAO().getOrdersForPharmacist(auth
 
             <div class="order-meta-grid">
                 <div><small>Received Date & Time</small><strong><%=o.get("orderDate")%></strong></div>
+                <div><small>Transport Method</small><strong><%=o.get("deliveryMethod")%></strong></div>
+                <div><small>Your Order Total</small><strong>Rs. <%=String.format("%.2f", (double)o.get("totalAmount"))%></strong></div>
+            </div>
+
+            <div class="order-items-mini">
+                <h4>Medicine Items</h4>
+                <%
+                String details = String.valueOf(o.get("itemDetails"));
+                if(details != null && !"null".equals(details) && !details.trim().isEmpty()) {
+                    String[] orderItems = details.split("\\|\\|");
+                    for(String itemDetail : orderItems) {
+                        String[] parts = itemDetail.split("::", -1);
+                        String image = parts.length > 0 && !parts[0].trim().isEmpty() ? parts[0] : "medicine.svg";
+                        String name = parts.length > 1 ? parts[1] : "Medicine";
+                        String qty = parts.length > 2 ? parts[2] : "0";
+                        String itemStatus = parts.length > 3 ? parts[3] : currentStatus;
+                        String expectedAt = parts.length > 5 ? parts[5] : "";
+                %>
+                <div class="order-mini-item">
+                    <img src="../assets/images/<%=image%>" alt="<%=name%>">
+                    <div>
+                        <strong><%=name%></strong>
+                        <small>Qty: <%=qty%> | Status: <%=itemStatus%></small>
+                        <% if(expectedAt != null && !expectedAt.trim().isEmpty()) { %>
